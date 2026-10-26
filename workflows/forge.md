@@ -23,10 +23,16 @@ commands below. All remaining arguments and quality gates are the same.
    retrieval, format by knowledge type, grounding, tags,
    explanation/source in the collapsed box). Write
    `decks/<topic>/<name>.cards.json` — deck name `"<Topic>::<Title>"`.
-5. Quality pipeline: `./tools/finish.sh decks/<topic>/<name>.cards.json`.
+5. **Separate front-only review:** follow the card-authoring skill's review pass
+   for every generated question, including reversed directions and individual
+   cloze/occlusion variants. Read each front without its answer or source;
+   rewrite missing-context cues and book/chapter framing, then check the answer
+   against the source. Keep citations in the collapsed `source` field.
+6. Quality pipeline: `./tools/finish.sh decks/<topic>/<name>.cards.json`.
    For occlusion cards additionally `./tools/preview.sh` and LOOK at the
-   PNGs (light AND dark) until the masks sit right.
-6. Report: card count per type, checks run, output path. If AnkiConnect is
+   PNGs (light AND dark) until the masks sit right. These checks do not replace
+   the front-only review.
+7. Report: card count per type, checks run, output path. If AnkiConnect is
    reachable (`python3 tools/anki_connect.py ping`), import via
    `finish.sh --push` when the user asked for it — sync only on explicit
    request.

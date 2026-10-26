@@ -27,6 +27,50 @@ the card type.**
 4. **Solvable (~90 %) but effortful:** the answer must not be trivially derivable.
 5. **Language = language of the source** (unless the user requests another —
    see AGENTS.md "Card language"). Only card what is exam-/learning-relevant.
+6. **Self-contained:** every question must make sense on its own in random
+   review order. Name the subject and any necessary conditions; use plain,
+   natural wording. Follow the standalone-question rules below.
+
+## Standalone questions and source references
+
+Write questions, answers and explanations about the subject directly. Avoid
+source-relative framing such as "according to the book", "in this chapter",
+"in the book's model", "described here" or "as shown in Figure 2.3". If scope
+matters, name the actual model, conditions or assumptions instead of pointing
+to the source. Keep book/chapter names and page/figure references in `source`,
+which appears in the collapsed box on the back.
+
+Every referent needed to interpret the question must be on the front. "This
+diagram" is meaningful only if the diagram is included there; a figure number
+or an image shown only on the back cannot supply missing context. Do not rely
+on the source document, deck title, neighbouring cards or hidden explanations.
+
+- Instead of "What centre-to-edge thickness profile characterizes the simple
+  converging lens described here?", ask "How does the thickness of a simple
+  glass converging lens in air compare at its centre and edges?"
+- Instead of "What does the chapter say determines image size?", name the
+  relevant condition: "For a subject at a fixed distance, how does increasing
+  a lens's focal length affect image size?"
+
+## Separate front-only review — before building
+
+After drafting, review **every new or edited question in a separate pass**.
+Include both directions of reversed cards and each generated cloze or
+occlusion variant. For reworks, stay within the requested changes and preserve
+GUIDs, cloze tokens and card ordinals as required by the rework workflow.
+
+1. Read only the front and any image displayed there, without consulting the
+   answer, explanation or source. State what single fact the question asks
+   for and check that every referent and necessary condition is explicit.
+2. Rewrite questions that depend on absent context, quote the source's framing,
+   use unnecessarily awkward wording or reveal their answer. Recheck the
+   rewritten fronts in isolation.
+3. Only then compare each question with its answer and source to verify that
+   the answer fits the cue and remains grounded.
+
+Complete this pass before the automated quality pipeline. Lint, grounding,
+coverage, previews and Anki validation do not establish that a question is
+self-contained or well written; passing them does not replace this review.
 
 ## Format choice (by knowledge type)
 
@@ -146,7 +190,8 @@ fact → cite the source instead of guessing.
 - **Avoid verbosity:** LLM-typical long "paragraph cards" violate atomicity.
 - **Avoid duplicates/redundancy** (not the same fact twice) — across a whole
   topic with `tools/coverage.py decks/<topic>/` (near-duplicates + coverage gaps).
-- **Self-check** every card against the checklist; rephrase the failures.
+- **Front-only review:** complete the separate pass above for every new or
+  edited question, then self-check each card against the checklist.
 - Then: `tools/lint_cards.py` (structure), `tools/grounding_check.py` (grounding),
   `tools/preview.sh` (renders **light AND night mode** → view the PNGs, check
   dark-mode readability), `tools/validate.sh` (real Anki engine) — or
@@ -157,6 +202,9 @@ fact → cite the source instead of guessing.
 - [ ] Exactly **one** atomic piece of information.
 - [ ] Forces **active retrieval** (no yes/no, no whole sentence).
 - [ ] Cue **unambiguous & distinct**, no hint leak.
+- [ ] **Separate front-only review completed:** subject, referents and necessary
+      conditions are clear without the source, deck title or other cards.
+- [ ] Natural wording; no book/chapter framing; citations only in `source`.
 - [ ] Answer as **short as possible**, exactly one correct form, producible.
 - [ ] **Format** fits the knowledge type (table above).
 - [ ] Cloze: only the keyword deleted; reverse only for genuine two-way use.
