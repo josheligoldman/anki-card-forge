@@ -27,6 +27,12 @@ partial JSON index with warnings; their original `.apkg` remains the complete ba
    `explanation`/`source` on top. For type-in and reversed basic notes, preserve
    the raw third field as `more`; do not append it to `back` (which becomes the
    question on the reverse card).
+   When visual enrichment is requested, review all cards in scope for useful
+   source graphics. Put explanatory crops visibly in ordinary basic `back`
+   fields or cloze `extra` fields; preserve deletion tokens and do not change
+   a reverse question or typed answer. Keep existing essential answer text
+   and source boxes intact, and avoid duplicating an image already shown on
+   the back through the front template.
 4. **Separate front-only review:** apply the card-authoring skill's review pass
    to every new or edited question, including each generated direction or
    variant. Remove source-dependent cues within the requested scope and keep
@@ -42,7 +48,9 @@ partial JSON index with warnings; their original `.apkg` remains the complete ba
    and ZERO cloze or safety warnings. Strict mode also rejects note-type,
    field-layout and card-ordinal changes and ambiguous comparisons. Added or
    removed notes are reported but do not by themselves fail the gate.
-   Then `./tools/validate.sh <out>.apkg`.
+   Then `./tools/validate.sh <out>.apkg`. For image additions or changes, run
+   `./tools/preview.sh` and inspect every affected layout in light and dark;
+   check crop completeness, readable labels and after-answer visibility.
 7. Import updates notes in place (same GUIDs): push via AnkiConnect or manual
    import with "Update notes". `--prune` only if the user asked to REMOVE
    cards; sync only on explicit request.

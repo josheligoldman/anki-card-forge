@@ -82,6 +82,31 @@ self-contained or well written; passing them does not replace this review.
 | **typein** | Only where **exact spelling/syntax** counts (commands, keywords, terms, vocabulary). Not for concepts (typos/synonyms = frustration). |
 | **basic + `reverse:true`** | Only for genuine **two-way use** (vocabulary L1↔L2, term↔definition). Omit for confusable pairs (interference). |
 
+## Explanatory source graphics — project preference
+
+The learner prefers visual explanations. For every card, consider the source's
+diagrams, graphs, tables and photographs; include a useful graphic on each
+relevant card when it clarifies the mechanism, relationship or example. A
+graphic can be valuable even when the text already explains the concept.
+Do not force an image onto a card if the source has no helpful visualization.
+
+- Prefer a focused crop of the original source figure. Preserve the relevant
+  labels, arrows, scales and legend. If automatic extraction misses a vector
+  diagram or clips a figure, render and crop the original PDF page.
+- Put explanatory images **after retrieval, visible when the answer is
+  revealed**: in `back` for ordinary basic cards and `extra` for cloze cards.
+  Keep cloze images out of `text` and preserve the deletion tokens. For reversed
+  or type-in notes, use back-only feedback (`more`) without changing a reverse
+  question or typed answer. Supplementary images may go in `explanation`, but
+  do not hide the main visual explanation in collapsed Details by default.
+- Put an image on the front only when interpreting it is part of the question;
+  explanatory feedback must not reveal the answer before retrieval. Existing
+  image-occlusion cards remain for spatial retrieval.
+- Reuse a figure on multiple cards when it helps each retrieval target, rather
+  than adding unrelated or decorative pictures. Keep citations in `source`.
+- Embed local media in the package and inspect every changed image layout in
+  light and dark previews for complete crops, readable labels and contrast.
+
 ## Lists / orders / processes
 
 - Prefer decomposing into **atomic single facts** (+ optionally one overview card).
@@ -152,18 +177,20 @@ rejects web media. Anki uses its bundled MathJax for the finished `.apkg`.
 
 ## Details & source (collapsed box)  →  fields `explanation` + `source`
 
-Deeper explanation ("why"/context) and origin belong on the **back**, but
-**separate from the retrieval**: in our `<details>` box that is **collapsed by
-default**. In the `*.cards.json` via the optional fields:
+Supplementary context and provenance belong in the `<details>` box on the
+**back**, **collapsed by default**. The essential answer, including the causal
+explanation tested by a "why/how" question, stays in the main answer. Follow
+the visual-feedback placement rules above for explanatory graphics.
+In the `*.cards.json` via the optional fields:
 
 ```json
 { "type": "basic", "front": "...", "back": "<short core answer>",
   "explanation": "Why/context.", "source": "Author year; script p. X" }
 ```
 
-Rules: the explanation goes **neither** on the front **nor** into the tested
-answer (otherwise retrieval difficulty / atomicity suffers). When unsure about a
-fact → cite the source instead of guessing.
+Rules: keep supplementary context off the front and separate from the tested
+answer; do not move the tested explanation into collapsed Details. When unsure
+about a fact, verify it against the source instead of guessing.
 
 ## Anti-patterns (short)
 
@@ -181,12 +208,13 @@ fact → cite the source instead of guessing.
   `tools/grounding_check.py` (answer against source text; ERROR = possibly invented).
 - **Image check:** the `.md` contains **no images**, only captions. Before
   building, go through the figure index `extracted/<topic>/<name>.figures.md`
-  (or the `· N fig.` markers). For **spatial/visual** concepts or when the image
-  carries information the text does not → view the crop
+  (or the `· N fig.` markers). For every card, check whether a figure offers a
+  useful visual explanation, even if the text covers the same information.
+  View the relevant crop
   `extracted/<topic>/figures/<name>_p<page>_*.png` with an image viewer (less
   overhead than a whole PDF page; if missing, inspect the original PDF page
-  directly or render it to an image) and build an
-  `occlusion`/image card if warranted — the crops double as the occlusion `image`.
+  directly or render it to an image). Add helpful figures to the answer side
+  using the placement rules above; use occlusion only for spatial retrieval.
 - **Avoid verbosity:** LLM-typical long "paragraph cards" violate atomicity.
 - **Avoid duplicates/redundancy** (not the same fact twice) — across a whole
   topic with `tools/coverage.py decks/<topic>/` (near-duplicates + coverage gaps).
@@ -208,6 +236,9 @@ fact → cite the source instead of guessing.
 - [ ] Answer as **short as possible**, exactly one correct form, producible.
 - [ ] **Format** fits the knowledge type (table above).
 - [ ] Cloze: only the keyword deleted; reverse only for genuine two-way use.
-- [ ] Details/source (if useful) in `explanation`/`source` — not in the retrieval.
+- [ ] Supplementary details/citations in `explanation`/`source`; the tested
+      explanation remains in the core answer.
 - [ ] **Grounded in the source**, no duplicate.
-- [ ] **Image check** done: relevant figure (`.figures.md`) viewed if visual.
+- [ ] **Visual-feedback review** done for this card: useful source graphics
+      included on the answer side, or no suitable graphic available. Changed
+      image layouts inspected in both themes.
